@@ -6,8 +6,6 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/"+userSettings.username;
 
-  programs.home-manager.enable = true;
-
   imports = [
               (./. + "../../../user/wm"+("/"+userSettings.wm+"/"+userSettings.wm)+".nix") # My window manager selected from flake
               ../../user/shell/sh.nix # My zsh and bash config
@@ -34,12 +32,18 @@
     zsh
     alacritty
 #    librewolf
-    brave
+    floorp
     qutebrowser
     git
     syncthing
     sl
     tmux
+    newsboat
+
+    # neomutt and related progs:
+    neomutt
+    mypy ruff
+    mutt-wizard pass notmuch imagemagick w3m lynx abook
 
     # Office
     libreoffice-fresh

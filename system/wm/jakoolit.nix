@@ -1,5 +1,7 @@
-{ inputs, pkgs, lib, ... }: let
+{ inputs, pkgs, userSettings, lib, ... }: 
+let
   pkgs-hyprland = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  username = userSettings.username; # Replace with your actual username
 in
 {
   # Import wayland config
@@ -11,6 +13,7 @@ in
   # Security
   security = {
     pam.services.login.enableGnomeKeyring = true;
+    pam.services.sddm.enableGnomeKeyring = true;
   };
 
   services.gnome.gnome-keyring.enable = true;
@@ -32,6 +35,14 @@ in
   };
 
   services.xserver.excludePackages = [ pkgs.xterm ];
+  system.activationScripts = {
+    sddm-face = ''
+      mkdir -p /usr/share/sddm/faces/
+      cp ${../../rickie.png} /usr/share/sddm/faces/${username}.face.icon
+      chmod 644 /usr/share/sddm/faces/${username}.face.icon
+      chown root:root /usr/share/sddm/faces/${username}.face.icon
+    '';
+  };
 
   services.xserver = {
     displayManager.sddm = {
@@ -40,7 +51,14 @@ in
       enableHidpi = true;
       theme = "chili";
       package = pkgs.sddm;
+      settings = {
+        Theme = {
+          FacesDir = "/usr/share/sddm/faces";
+        };
+      };
     };
-
   };
+
+  # Ensure the directories exist
+  environment.systemPackages = [ pkgs.coreutils ];
 }

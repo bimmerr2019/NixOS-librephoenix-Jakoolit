@@ -92,14 +92,14 @@ in
   home.packages = [ pkgs.qutebrowser
                     (pkgs.callPackage ./qute-containers.nix { dmenuCmd = "fuzzel -d"; })
                   ];
-  home.sessionVariables = { DEFAULT_BROWSER = "${pkgs.qutebrowser}/bin/qutebrowser"; };
-  xdg.mimeApps.defaultApplications = {
-  "text/html" = "org.qutebrowser.qutebrowser.desktop";
-  "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
-  "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
-  "x-scheme-handler/about" = "org.qutebrowser.qutebrowser.desktop";
-  "x-scheme-handler/unknown" = "org.qutebrowser.qutebrowser.desktop";
-  };
+  # home.sessionVariables = { DEFAULT_BROWSER = "${pkgs.qutebrowser}/bin/qutebrowser"; };
+  # xdg.mimeApps.defaultApplications = {
+  # "text/html" = "org.qutebrowser.qutebrowser.desktop";
+  # "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
+  # "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
+  # "x-scheme-handler/about" = "org.qutebrowser.qutebrowser.desktop";
+  # "x-scheme-handler/unknown" = "org.qutebrowser.qutebrowser.desktop";
+  # };
   home.file.".config/qutebrowser/userscripts/container-open".source = "${(pkgs.callPackage ./qute-containers.nix { dmenuCmd = "fuzzel -d"; })}/bin/container-open";
   home.file.".config/qutebrowser/userscripts/containers_config".source = "${(pkgs.callPackage ./qute-containers.nix { dmenuCmd = "fuzzel -d"; })}/bin/containers_config";
 
@@ -144,7 +144,7 @@ c.content.javascript.clipboard = "access-paste"
 c.content.javascript.enabled = True
 c.content.local_content_can_access_file_urls = True
 c.content.local_content_can_access_remote_urls = True
-c.downloads.location.directory = "/home/bimmer/Downloads"
+c.downloads.location.directory = "/home/''+userSettings.username+''/Downloads"
 c.downloads.remove_finished = 20000
 # c.fonts.default_size = "18pt"
 

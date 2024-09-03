@@ -3,7 +3,7 @@
 {
   services.dbus = {
     enable = true;
-    packages = [ pkgs.dconf ];
+    packages = [ pkgs.dconf pkgs.gnome.gnome-keyring ];
   };
 
   programs.dconf = {

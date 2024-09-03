@@ -6,8 +6,8 @@
       # ---- SYSTEM SETTINGS ---- #
       systemSettings = {
         system = "x86_64-linux"; # system arch
-        hostname = "snowfire"; # hostname
-        profile = "personal"; # select a profile defined from my profiles directory
+        hostname = "Chicxulub"; # hostname
+        profile = "work"; # select a profile defined from my profiles directory
         timezone = "Asia/Shanghai"; # select timezone
         locale = "en_US.UTF-8"; # select locale
         bootMode = "uefi"; # uefi or bios
@@ -19,7 +19,7 @@
       # ----- USER SETTINGS ----- #
       userSettings = rec {
         username = "bimmer"; # username
-        name = "Chris"; # name/identifier
+        name = "bimmer"; # name/identifier
         email = ""; # email (used for certain configurations)
         dotfilesDir = "/home/bimmer/.dotfiles"; # absolute path of the local repo
         theme = "io"; # selcted theme from my themes directory (./themes/)

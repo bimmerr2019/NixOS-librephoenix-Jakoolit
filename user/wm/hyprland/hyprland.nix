@@ -711,7 +711,7 @@ in
 
     label {
       monitor =
-      text = Hello, Chris
+      text = Hello, ''+userSettings.name+''
       color = rgb(''+config.lib.stylix.colors.base07-rgb-r+'',''+config.lib.stylix.colors.base07-rgb-g+'', ''+config.lib.stylix.colors.base07-rgb-b+'')
       font_size = 25
       font_family = ''+userSettings.font+''

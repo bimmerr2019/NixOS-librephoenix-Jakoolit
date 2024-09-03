@@ -60,6 +60,16 @@
   networking.hostName = systemSettings.hostname; # Define your hostname.
   networking.networkmanager.enable = true; # Use networkmanager
 
+#Put appImages in the /opt diretory:
+  # Create /opt/appimages directory
+  system.activationScripts = {
+    createAppImageDir = ''
+      mkdir -p /opt/appimages
+      chown root:users /opt/appimages
+      chmod 775 /opt/appimages
+    '';
+  };
+
   # Timezone and locale
   time.timeZone = systemSettings.timezone; # time zone
   i18n.defaultLocale = systemSettings.locale;
@@ -87,6 +97,7 @@
   # System packages
   environment.systemPackages = with pkgs; [
     vim
+    neovim
     wget
     zsh
     git
@@ -112,8 +123,34 @@
         echo "usage: comma PKGNAME... [EXECUTABLE]";
       fi
     '')
-  ];
+  # Optionally, add a convenient way to run AppImages
+    (writeShellScriptBin "run-appimage" ''
+      ${appimage-run}/bin/appimage-run /opt/appimages/$1
+    '')
+  # Add a desktop file for each appimage here:
+    (makeDesktopItem {
+      name = "LMStudio";
+      desktopName = "LM Studio";
+      exec = "${pkgs.appimage-run}/bin/appimage-run /opt/appimages/LM_Studio-0.3.2.AppImage";
+      icon = ""; # Leave empty if there's no icon
+      comment = "LM Studio Application";
+      categories = [ "Utility" ];
+      terminal = false;
+    })
+    (makeDesktopItem {
+      name = "Logseq";
+      desktopName = "Logseq";
+      exec = "${pkgs.appimage-run}/bin/appimage-run /opt/appimages/Logseq-linux-x64-0.10.9.AppImage";
+      icon = ""; # Leave empty if there's no icon
+      comment = "Logseq Application";
+      categories = [ "Utility" ];
+      terminal = false;
+    })
 
+  ];
+  security.pam.services.sudo = {
+    u2fAuth = true;
+  };
   # I use zsh btw
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;

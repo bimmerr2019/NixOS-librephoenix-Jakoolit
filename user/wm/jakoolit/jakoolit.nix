@@ -1,4 +1,5 @@
-{ inputs, config, lib, pkgs, userSettings, systemSettings, pkgs-nwg-dock-hyprland, ... }: let
+{ inputs, config, lib, pkgs, userSettings, systemSettings, pkgs-nwg-dock-hyprland, ... }: 
+let
   pkgs-hyprland = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   python-packages = pkgs.python3.withPackages (
     ps:
@@ -73,6 +74,7 @@ source= $UserConfigs/WorkspaceRules.conf
     dunst
     mpdris2
     signal-desktop
+    sc-im
     nekoray
     eog
     gnome-system-monitor
@@ -102,8 +104,10 @@ source= $UserConfigs/WorkspaceRules.conf
 
 
     alacritty
+    zathura
     kitty
     feh
+    pam_u2f
     killall
     polkit_gnome
     nwg-launchers
@@ -286,7 +290,7 @@ source= $UserConfigs/WorkspaceRules.conf
     Alacritty
     emacsclientnewframe
     qutebrowser
-    brave-browser
+    #brave-browser
     writer
     impress
     calc
@@ -387,7 +391,7 @@ source= $UserConfigs/WorkspaceRules.conf
   #
   #   label {
   #     monitor =
-  #     text = Hello, Chris
+  #     text = Hello, ''+userSettings.name+''
   #     color = rgb(''+config.lib.stylix.colors.base07-rgb-r+'',''+config.lib.stylix.colors.base07-rgb-g+'', ''+config.lib.stylix.colors.base07-rgb-b+'')
   #     font_size = 25
   #     font_family = ''+userSettings.font+''

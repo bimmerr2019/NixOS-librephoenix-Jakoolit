@@ -19,7 +19,7 @@
     zsh
     alacritty
 #    librewolf
-    brave
+    floorp
     git
     syncthing
 
