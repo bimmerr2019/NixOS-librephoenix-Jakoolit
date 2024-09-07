@@ -48,7 +48,7 @@ in
     })
     (pkgs.writeScriptBin "hyprprofile-dmenu" dmenuScript)
   ];
-    xdg.mimeApps.defaultApplications = lib.mkForce {
+    xdg.mimeApps.defaultApplications = {
     "text/html" = "qutebrowser-hyprprofile.desktop";
     "x-scheme-handler/http" = "qutebrowser-hyprprofile.desktop";
     "x-scheme-handler/https" = "qutebrowser-hyprprofile.desktop";

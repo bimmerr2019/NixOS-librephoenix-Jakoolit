@@ -13,6 +13,8 @@
       ../../system/hardware/opengl.nix
       ../../system/hardware/printing.nix
       ../../system/hardware/bluetooth.nix
+      ../../system/hardware/nvidia-drivers.nix
+      ../../system/hardware/nvidia-prime-drivers.nix
       (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # My window manager
       #../../system/app/flatpak.nix
       ../../system/app/virtualization.nix
@@ -25,7 +27,42 @@
       ../../system/security/openvpn.nix
       ../../system/security/automount.nix
       ../../system/style/stylix.nix
+      # Uncomment the line below to install Invidious (also set the enable flag to true below)
+      # ../../system/invidious/invidious.nix
+      
+      # Uncomment the line below to remove Invidious  (also set the enable flag to false below)
+      # ../../system/invidious/invidious_rm.nix
     ];
+
+  # Enable ollama
+  services.ollama = {
+     enable = true;
+     port = 11434;
+  };
+  # Enable Invidious
+  services.invidious = {
+     enable = true;
+     port = 3000;
+  };
+  services.invidious.settings = lib.mkForce {
+    check_tables = true;
+    db = {
+      dbname = "invidious";
+      host = "";
+      password = "";
+      port = 3000;
+      user = "invidious";
+    };
+    host_binding = "0.0.0.0";
+    default_user_preferences = {
+      locale = "en-US";
+      region = "US";
+    };
+    captions = [
+      "English"
+      "English (auto-generated)"
+    ];
+  };
 
   # Fix nix path
   nix.nixPath = [ "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
@@ -99,7 +136,6 @@
     vim
     neovim
     wget
-    zsh
     git
     openssl #required by Rainbow borders
     cryptsetup
@@ -148,22 +184,25 @@
     })
 
   ];
+
+  #touch yubikey for sudo
   security.pam.services.sudo = {
     u2fAuth = true;
   };
+
   # I use zsh btw
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
+  programs.zsh = {
+    enable = true;
+  };
+
+  #yubikey stuff:
   services.pcscd.enable = true;
   services.udev.packages = [ pkgs.yubikey-personalization ];
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-  };
-  programs.zsh = {
-    enable = true;
-    interactiveShellInit = ''
-    '';
   };
 
   fonts.fontDir.enable = true;

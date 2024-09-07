@@ -1,6 +1,6 @@
 { config, pkgs, lib, ...  }:
 let
-  # Import myAliases directly
+  # Import myAliases directly 
   myAliases = import ./myAliases.txt;
 
   # Read the script content from scripts.sh
@@ -26,25 +26,27 @@ in
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
+
   home.sessionVariables = {
-    DISABLE_AUTO_TITLE="true";
-    SUDO_EDITOR="nvim";
-    EDITOR="nvim";
-    VISUAL="nvim";
-    PDFVIEWER="zathura";
-    TERMINAL="kitty";
-    TERMINAL_PROG="kitty";
-    BROWSER="qutebrowser";
-    HISTSIZE=1000000;
-    SAVEHIST=1000000;
-    SYSTEMD_PAGER="vim";
-    FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git";
-    FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND";
-    FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git";
-    FZF_DEFAULT_OPTS="--margin=15% --border=rounded";
-    FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'";
-    FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'";
-    BAT_THEME="tokyonight_night";
+    DISABLE_AUTO_TITLE = "true";
+    SUDO_EDITOR = "${pkgs.neovim}/bin/nvim";
+    EDITOR = "${pkgs.neovim}/bin/nvim";
+    VISUAL = "${pkgs.neovim}/bin/nvim";
+    PDFVIEWER = "${pkgs.zathura}/bin/zathura";
+    TERMINAL = "${pkgs.kitty}/bin/kitty";
+    TERMINAL_PROG = "${pkgs.kitty}/bin/kitty";
+    DEFAULT_BROWSER = "${pkgs.qutebrowser}/bin/qutebrowser";
+    BROWSER = "${pkgs.qutebrowser}/bin/qutebrowser";
+    HISTSIZE = 1000000;
+    SAVEHIST = 1000000;
+    SYSTEMD_PAGER = "${pkgs.neovim}/bin/nvim";
+    FZF_DEFAULT_COMMAND = "fd --hidden --strip-cwd-prefix --exclude .git";
+    FZF_CTRL_T_COMMAND = "$FZF_DEFAULT_COMMAND";
+    FZF_ALT_C_COMMAND = "fd --type=d --hidden --strip-cwd-prefix --exclude .git";
+    FZF_DEFAULT_OPTS = "--margin=15% --border=rounded";
+    FZF_CTRL_T_OPTS = "--preview 'bat -n --color=always --line-range :500 {}'";
+    FZF_ALT_C_OPTS = "--preview 'eza --tree --color=always {} | head -200'";
+    BAT_THEME = "Monokai Extended Origin";
   };
   programs.home-manager.enable = true;
   programs.mbsync = {
@@ -57,17 +59,20 @@ in
     syntaxHighlighting.enable = true;
     enableCompletion = true;
     shellAliases = myAliases;
-    # ohMyZsh = {
-    #     enable = true;
-    #     plugins = ["git"];
-    #     theme = "xiong-chiamiov-plus";
-    # };
+    oh-my-zsh = {
+      enable = true;
+      plugins = ["git"];
+      theme = "xiong-chiamiov-plus";
+    };
     initExtra = ''
        if [ -f "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh" ]; then
          . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
        fi
        source ${scriptFile}
        PROMPT=" ◉ %U%F{magenta}%n%f%u@%U%F{blue}%m%f%u:%F{yellow}%~%f %F{green}→%f "
+       bindkey -r '^l'
+       bindkey -r '^g'
+       bindkey -s '^g' 'clear\n'
     '';
   };
 
@@ -156,7 +161,7 @@ in
     disfetch lolcat cowsay onefetch
     krabby
     fzf
-    yt-dlp
+    lsof
     nsxiv
     nsxiv-fullscreen
     gnugrep gnused

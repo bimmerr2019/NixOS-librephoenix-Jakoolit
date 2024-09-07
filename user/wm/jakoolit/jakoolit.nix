@@ -187,7 +187,7 @@ source= $UserConfigs/WorkspaceRules.conf
       txtname="/tmp/screenshot-ocr-$(date +%Y%m%d%H%M%S)"
       txtfname=$txtname.txt
       grim -g "$(slurp)" $imgname;
-      tesseract $imgname $txtname;
+      tesseract $imgname $txtname 2>/dev/null
       wl-copy -n < $txtfname
     '')
     (pkgs.writeScriptBin "nwg-dock-wrapper" ''
@@ -428,6 +428,123 @@ source= $UserConfigs/WorkspaceRules.conf
       '';
       patches = [./patches/waybarpaupdate.patch ./patches/waybarbatupdate.patch];
     });
+  };
+
+  xdg.configFile = {
+    "qutebrowser/quickmarks" = {
+      source = ./quickmarks;  # Path to your existing config file
+      target = "qutebrowser/quickmarks";
+    };
+    "waybar/config" = {
+      source = ./waybar-config.json;  # Path to your existing config file
+      target = "waybar/config";
+    };
+    "waybar/style.css" = {
+      source = ./style.css;  # Path to your existing CSS file
+      target = "waybar/style.css";
+    };
+    "mpv/mpv.conf" = {
+      text = ''
+fs=yes
+sid=1
+sub-auto=fuzzy
+sub-file-paths=subtitles
+      '';
+    };
+    "sc-im/scimrc" = {
+      text = ''
+set autocalc
+set numeric
+set numeric_decimal=0
+set overlap
+set xlsx_readformulas
+set ignorecase=1
+
+nnoremap "<LEFT>" "fh"
+nnoremap "<RIGHT>" "fl"
+nnoremap "<UP>" "fk"
+nnoremap "<DOWN>" "fj"
+nnoremap "<C-e>" ":cellcolor A0 \"reverse=1 bold=1\"<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>"
+nnoremap "K" ":nextsheet <CR>"
+nnoremap "J" ":prevsheet <CR>"
+nnoremap "/" ":go into\"\"<LEFT>" 
+
+REDEFINE_COLOR "WHITE" 248 248 242
+REDEFINE_COLOR "MAGENTA" 255 128 191
+#DEFINE_COLOR "comment" 121 112 169
+#DEFINE_COLOR "altbackground" 63 63 63
+      '';
+    };
+    "newsboat/urls" = {
+      source = ./urls_newsboat;  # Path to your existing CSS file
+      target = "newsboat/urls";
+    };
+
+    "newsboat/config" = {
+      text = ''
+show-read-feeds yes
+#auto-reload yes
+
+external-url-viewer "urlscan -dc -r 'linkhandler {}'"
+
+proxy-type socks5
+proxy 127.0.0.1:20170
+use-proxy no
+
+confirm-mark-feed-read no
+
+bind-key j down
+bind-key k up
+bind-key j next articlelist
+bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key G end
+bind-key g home
+bind-key d pagedown
+bind-key u pageup
+bind-key l open
+bind-key h quit
+bind-key a toggle-article-read
+bind-key n next-unread
+bind-key N prev-unread
+bind-key D pb-download
+bind-key U show-urls
+bind-key x pb-delete
+
+color listnormal cyan default
+color listfocus black yellow standout bold
+color listnormal_unread blue default
+color listfocus_unread yellow default bold
+color info red black bold
+color article white default bold
+
+browser linkhandler
+macro , open-in-browser
+macro t set browser "qndl" ; open-in-browser ; set browser linkhandler
+macro a set browser "tsp youtube-dl --add-metadata -xic -f bestaudio/best" ; open-in-browser ; set browser linkhandler
+macro v set browser "setsid -f mpv" ; open-in-browser ; set browser linkhandler
+macro w set browser "lynx" ; open-in-browser ; set browser linkhandler
+macro d set browser "dmenuhandler" ; open-in-browser ; set browser linkhandler
+macro c set browser "echo %u | xclip -r -sel c" ; open-in-browser ; set browser linkhandler
+macro C set browser "youtube-viewer --comments=%u" ; open-in-browser ; set browser linkhandler
+macro p set browser "peertubetorrent %u 480" ; open-in-browser ; set browser linkhandler
+macro P set browser "peertubetorrent %u 1080" ; open-in-browser ; set browser linkhandler
+
+highlight all "---.*---" yellow
+highlight feedlist ".*(0/0))" black
+highlight article "(^Feed:.*|^Title:.*|^Author:.*)" cyan default bold
+highlight article "(^Link:.*|^Date:.*)" default default
+highlight article "https?://[^ ]+" green default
+highlight article "^(Title):.*$" blue default
+highlight article "\\[[0-9][0-9]*\\]" magenta default bold
+highlight article "\\[image\\ [0-9]+\\]" green default bold
+highlight article "\\[embedded flash: [0-9][0-9]*\\]" green default bold
+highlight article ":.*\\(link\\)$" cyan default
+highlight article ":.*\\(image\\)$" blue default
+highlight article ":.*\\(embedded flash\\)$" magenta default
+      '';
+    };
   };
   home.file.".config/gtklock/style.css".text = ''
     window {

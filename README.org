@@ -7,8 +7,8 @@ All I did was take a copy of his repo, and add JaKooLit's dotfiles. I wanted to 
 from JaKooLit directly but could never get it to work.
 
 This is VERY MUCH a work in progress. When I bring up a new machine with a fresh NixOS system,
-i will be using this command from librephoenix, but operating on this repo:
+i will be using this SINGLE command from librephoenix, but operating on this repo:
 
 nix-shell -p git --command "nix run --experimental-features 'nix-command flakes' github:bimmerr2019/NixOS-librephoenix-Jakoolit"
 
-
+to install hyprland with jakoolit dotfiles. Before executing this one command you need to  do a normal NIXOS graphucal install and choose the "No Desktop" option.

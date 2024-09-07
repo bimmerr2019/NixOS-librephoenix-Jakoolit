@@ -12,6 +12,9 @@
               ../../user/shell/cli-collection.nix # Useful CLI apps
               #../../user/app/doom-emacs/doom.nix # My doom emacs config
               #../../user/app/emacsng # Me experimenting with emacsng and a vanilla config
+              ../../user/app/nostrudel/nostrudel.nix # local copy of nostrudel for nostr
+              ../../user/app/hn/hn.nix # hacker news
+              ../../user/app/yt-dlp/yt-dlp.nix # youtube downloader
               ../../user/app/ranger/ranger.nix # My ranger file manager config
               ../../user/app/git/git.nix # My git config
               ../../user/app/keepass/keepass.nix # My password manager
@@ -29,7 +32,6 @@
 
   home.packages = (with pkgs; [
     # Core
-    zsh
     alacritty
 #    librewolf
     floorp
@@ -120,7 +122,6 @@
     (pkgs-stable.lollypop.override { youtubeSupport = false; })
     vlc
     mpv
-    yt-dlp
     blender-hip
     # cura is moderately broken on wayland, so use xwayland
     (pkgs-stable.cura.overrideAttrs (oldAttrs: {
@@ -185,6 +186,10 @@
     libffi zlib
     nodePackages.ungit
     ventoy
+    #nodejs: nvim, yarn: nostrudel, go: hn-text
+    nodejs
+    yarn
+    go
   ]) ++ ([ pkgs-kdenlive.kdenlive ]);
 
   home.file.".local/share/pixmaps/nixos-snowflake-stylix.svg".source =
@@ -192,6 +197,22 @@
       template = builtins.readFile ../../user/pkgs/nixos-snowflake-stylix.svg.mustache;
       extension = "svg";
     };
+
+# hyprland calls this on startup:
+  home.file.".local/bin/restart-nextcloud-client.sh" = {
+    text = ''
+      #!/bin/sh
+      sleep 30
+      systemctl --user restart nextcloud-client.service
+    '';
+    executable = true;
+  };
+
+  # Optional: Configure Nextcloud client (let hyprland start it up)
+  services.nextcloud-client = {
+    enable = true;
+    startInBackground = true;
+  };
 
   services.syncthing.enable = true;
 
@@ -224,10 +245,10 @@
   };
 
   home.sessionVariables = {
-    EDITOR = userSettings.editor;
-    SPAWNEDITOR = userSettings.spawnEditor;
-    TERM = userSettings.term;
-    BROWSER = userSettings.browser;
+    # EDITOR = userSettings.editor;
+    # SPAWNEDITOR = userSettings.spawnEditor;
+    # TERM = userSettings.term;
+    # BROWSER = userSettings.browser;
   };
 
   news.display = "silent";

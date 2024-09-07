@@ -5,10 +5,10 @@
   home.packages = if (userSettings.wmType == "wayland") then [ pkgs.librewolf-wayland ]
                 else [ pkgs.librewolf ];
 
-  home.sessionVariables = if (userSettings.wmType == "wayland")
-                            then { DEFAULT_BROWSER = "${pkgs.librewolf-wayland}/bin/librewolf";}
-                          else
-                            { DEFAULT_BROWSER = "${pkgs.librewolf}/bin/librewolf";};
+  # home.sessionVariables = if (userSettings.wmType == "wayland")
+  #                           then { DEFAULT_BROWSER = "${pkgs.librewolf-wayland}/bin/librewolf";}
+  #                         else
+  #                           { DEFAULT_BROWSER = "${pkgs.librewolf}/bin/librewolf";};
 
   home.file.".librewolf/librewolf.overrides.cfg".text = ''
     defaultPref("font.name.serif.x-western","''+userSettings.font+''");
@@ -35,12 +35,12 @@
     pref("webgl.disabled",true);
     '';
 
-  xdg.mimeApps.defaultApplications = {
-  "text/html" = "librewolf.desktop";
-  "x-scheme-handler/http" = "librewolf.desktop";
-  "x-scheme-handler/https" = "librewolf.desktop";
-  "x-scheme-handler/about" = "librewolf.desktop";
-  "x-scheme-handler/unknown" = "librewolf.desktop";
-  };
+  # xdg.mimeApps.defaultApplications = {
+  # "text/html" = "librewolf.desktop";
+  # "x-scheme-handler/http" = "librewolf.desktop";
+  # "x-scheme-handler/https" = "librewolf.desktop";
+  # "x-scheme-handler/about" = "librewolf.desktop";
+  # "x-scheme-handler/unknown" = "librewolf.desktop";
+  # };
 
 }
